@@ -1,0 +1,37 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "Web Application Skeleton",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/densan/webapp.git"
+  },
+  "author": "Takenori Nakagawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/densan/webapp/issues"
+  },
+  "homepage": "https://github.com/densan/webapp",
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "config": "^1.9.0",
+    "connect-mongo": "^0.4.1",
+    "csurf": "^1.6.3",
+    "express": "^4.10.6",
+    "express-session": "^1.9.3",
+    "hogan-express": "^0.5.2",
+    "js-yaml": "^3.2.3",
+    "mongoose": "^3.8.20",
+    "passport": "^0.2.1",
+    "passport-google": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1",
+    "supertest": "^0.15.0"
+  }
+}
