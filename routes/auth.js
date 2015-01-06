@@ -28,7 +28,7 @@ passport.use(new GoogleStrategy(config.google, function (id, profile, done) {
 
 // user object -> id 変換
 passport.serializeUser(function (user, done) {
-  models.User.findOneAndUpdate({id: user.id}, {upsert: true}, function (err, user) {
+  models.User.findOneAndUpdate({id: user.id}, user, {upsert: true}, function (err, user) {
     done(err, user.id);
   });
 });
