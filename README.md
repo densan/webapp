@@ -55,7 +55,7 @@ npm test
 分からない英文は [Google 翻訳](https://translate.google.co.jp/) を使って読んでいきます。
 
 ### MongoDB, mongoose
-* [Mongoose - デベロッパーズガイド 日本語訳](http://muddy-dixon.appspot.com/ja/mongoosejs/)
+* [Mongoose - デベロッパーズガイド 日本語訳](http://muddy-dixon.appspot.com/ja/mongoosejs/index.html)
 * [Mongoose 公式ドキュメント](http://mongoosejs.com/)
 
 ### JavaScript, Node.js
