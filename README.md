@@ -7,7 +7,12 @@ Web Application を開発する際のスケルトンです。
 
 課題
 ----
-`models/Post.js` と `routes/api.js` と `views/` 以下のファイルを編集して、テストケースを全て満たす文字列投稿サービスを開発してください。
+* `models/Message.js`
+* `routes/message.js`
+* `routes/home.js`
+* `views/` 以下のファイル
+
+これらを編集して、テストケースを全て満たす文字列投稿サービスを開発してください。
 
 `test/` 以下の既存のテストケースを改変する行為は禁じますが、テストケースを増やすことは許可します。
 
