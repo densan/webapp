@@ -25,6 +25,10 @@ var schema = new mongoose.Schema({
     index: {unique: true},
     required: true
   },
+  password: {
+    key: String,
+    salt: String
+  },
   created_at: {
     type: Date,
     default: Date.now,

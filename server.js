@@ -18,16 +18,11 @@ var app = express();
 // express settings
 app.disable("x-powered-by");
 app.set("port", process.env.PORT || config.server.port || 3000);
-app.set("views", path.join(__dirname, "views"));
+
+// view settings
+app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "html");
 app.engine("html", hogan);
-/* comment out (後々使います)
-app.locals.partials = {
-  header: "partials/header",
-  footer: "partials/footer",
-  modal: "partials/modal"
-};
-//*/
 
 // middleware
 app.use(express.static(path.resolve(__dirname, "public")));
@@ -94,9 +89,12 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// start server (late start)
-var server = app.listen(app.get("port"), function() {
-  console.log("Express server listening on " + JSON.stringify(server.address()));
-});
-
-module.exports = app;
+if (module.parent) {
+  // for API test
+  module.exports = app;
+} else {
+  // start server
+  var server = app.listen(app.get("port"), function() {
+    console.log("Express server listening on " + JSON.stringify(server.address()));
+  });
+}

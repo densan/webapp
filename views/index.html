@@ -4,8 +4,28 @@
 	<title>Webapp</title>
 </head>
 <body>
-	<h1>Webapp</h1>
+	<div class="wrapper">
+		<header>
+			<h1>Webapp</h1>
+		</header>
 
-	<a href="/auth">ログイン</a>
+		<section id="login">
+			<h2>Google アカウント認証</h2>
+			<a href="/auth">ログイン</a>
+		</section>
+
+		<section id="login_password">
+			<h2>パスワードでログイン</h2>
+			<form action="/auth/password" method="post">
+				<input name="email" type="text" placeholder="email">
+				<input name="pass" type="password" placeholder="password">
+				<button type="submit">ログイン</button>
+			</form>
+		</section>
+
+		<footer>
+			&copy;densan network team
+		</footer>
+	</div>
 </body>
 </html>
