@@ -21,15 +21,4 @@ describe("Pages", function (done) {
       .expect("Location", /^https:\/\/www\.google\.com\/accounts\/o8\/ud/)
       .expect(302, done);
   });
-
-  describe("authorized", function () {
-    var agent = request.agent(app);
-
-    before(function () {
-      request(app)
-        .get("/auth")
-        .expect("Location", /^https:\/\/www\.google\.com\/accounts\/o8\/ud/)
-        .expect(302, done);
-    });
-  });
 });

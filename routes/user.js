@@ -8,7 +8,6 @@ var router = express.Router();
 
 var validator = require("validator");
 
-var libs = require("../libs");
 var models = require("../models");
 
 // GET /user のルート
@@ -37,32 +36,24 @@ router.post("/", function (req, res) {
     });
   }
 
-  libs.pwhash.generate(password, function (err, password, salt) {
-    var user = req.user.toJSON();
-    user.password = {
-      key: password,
-      salt: salt
-    };
-
-    models.User.findOneAndUpdate({
-      id: req.user.id
-    }, user).exec(function (err) {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({
-          status: "ng",
-          message: "database error"
-        });
-      }
-
-      if (req.xhr) {
-        res.json({
-          status: "ok"
-        });
-      } else {
-        // GET /user へリダイレクト
-        res.redirect("/user");
-      }
+  models.User.findOne({
+    id: req.user.id
+  }).exec().then(function (user) {
+    return user.updatePassword(password);
+  }).then(function () {
+    if (req.xhr) {
+      res.json({
+        status: "ok"
+      });
+    } else {
+      // GET /user へリダイレクト
+      res.redirect("/user");
+    }
+  }, function (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "ng",
+      message: "database error"
     });
   });
 });

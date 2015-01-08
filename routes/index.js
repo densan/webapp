@@ -13,7 +13,7 @@ Object.keys(routes).forEach(function (route_path) {
   router.use("/" + route_path, routes[route_path]);
 });
 
-// GEt / のルート
+// GET / のルート
 router.get("/", function (req, res) {
   res.render("index");
 });

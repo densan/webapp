@@ -5,6 +5,8 @@
 
 var mongoose = require("mongoose");
 
+var libs = require("../libs");
+
 // User スキーマの定義
 var schema = new mongoose.Schema({
   id: {
@@ -41,11 +43,39 @@ var schema = new mongoose.Schema({
   }
 });
 
+console.log(mongoose.promise, mongoose.prototype);
+schema.method("updatePassword", function (password) {
+  var promise = new mongoose.Promise();
+
+  var user = this;
+
+  libs.pwhash.generate(password, function (err, key, salt) {
+    if (err) {
+      return promise.reject(new Error("pwhash error"));
+    }
+
+    user.password = {
+      key: key,
+      salt: salt
+    };
+
+    promise.resolve(null, user.password);
+  });
+
+  return promise;
+});
+
 // 保存時の処理
 schema.pre("save", function (next) {
   // update_at プロパティを現在時刻で更新する。
   this.updated_at = Date.now();
-  next();
+
+  if (this.password.key && ! this.password.salt) {
+    this.updatePassword(this.password.key)
+        .then(next.bind(null, null), next);
+  } else {
+    next();
+  }
 });
 
 module.exports = mongoose.model("User", schema);

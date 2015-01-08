@@ -44,7 +44,7 @@ passport.use(new LocalStrategy({
       return done(new Error("user not found"));
     }
 
-    if (! user.password) {
+    if (! user.password || ! user.password.key || ! user.password.salt) {
       return done(new Error("should be set password"));
     }
 
@@ -63,8 +63,6 @@ passport.use(new LocalStrategy({
         last_name: user.last_name,
         email: user.email
       };
-
-      console.info(user);
 
       done(null, user);
     });
