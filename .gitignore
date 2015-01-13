@@ -1,6 +1,7 @@
 # Git
 .*
 !.gitignore
+!.gitkeep
 
 # Windows
 Thumbs.db
