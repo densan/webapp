@@ -4,7 +4,7 @@
 
 var crypto = require("crypto");
 
-var iterations = 128;
+var iterations = 10000;
 var keylen = 32;
 var encoding = "hex";
 
