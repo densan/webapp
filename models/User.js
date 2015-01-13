@@ -43,7 +43,11 @@ var schema = new mongoose.Schema({
   }
 });
 
-console.log(mongoose.promise, mongoose.prototype);
+var virtual = schema.virtual("name");
+virtual.get(function () {
+  return this.name.first_name + " " + this.name.last_name;
+});
+
 schema.method("updatePassword", function (password) {
   var promise = new mongoose.Promise();
 
