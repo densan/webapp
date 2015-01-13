@@ -7,7 +7,6 @@ var request = require("supertest");
 var expect = require("chai").expect;
 
 var models = require("../models");
-var libs = require("../libs");
 
 var app = require("../server");
 
@@ -98,8 +97,9 @@ describe("API", function () {
   describe("Message API", function () {
     var agent = request.agent(app);
     var agent2 = request.agent(app);
-    var message_id = 0;
-    var message_id2 = 0;
+    var message_id;
+    var message_id2;
+    var post_size = 0;
 
     before(function (done) {
       agent
@@ -110,7 +110,7 @@ describe("API", function () {
     before(function (done) {
       agent2
         .post("/auth/password")
-        .send({email: "test@example.com", pass: "testtest"})
+        .send({email: "hoge@example.com", pass: "piyopiyo"})
         .expect(302, done);
     });
 
@@ -126,7 +126,7 @@ describe("API", function () {
           }
 
           expect(res.body).to.have.property("status", "ok");
-          expect(res.body).to.have.property("id").to.be.an("number");
+          expect(res.body).to.have.property("id").to.be.an("string");
           message_id = res.body.id;
 
           done();
@@ -135,7 +135,7 @@ describe("API", function () {
     it("POST /message (another user)", function (done) {
       agent2
         .post("/message")
-        .send({data: "メッセージ"})
+        .send({data: "コメント"})
         .expect("Content-Type", /application\/json/)
         .expect(200)
         .end(function (err, res) {
@@ -144,7 +144,7 @@ describe("API", function () {
           }
 
           expect(res.body).to.have.property("status", "ok");
-          expect(res.body).to.have.property("id").to.be.an("number");
+          expect(res.body).to.have.property("id").to.be.an("string");
           message_id2 = res.body.id;
 
           done();
@@ -199,6 +199,7 @@ describe("API", function () {
           var post = res.body.posts.filter(function (post) {
             return post.id === message_id;
           })[0];
+          post_size = res.body.posts.length;
 
           expect(post).to.have.property("id", message_id);
           expect(post).to.have.property("data", "メッセージ");
@@ -207,7 +208,9 @@ describe("API", function () {
           expect(post).to.have.property("user").to.be.an("object");
 
           var user = post.user;
-          expect(user).to.have.proeprty("name", "test account");
+          expect(user).to.have.property("name", "test account");
+
+          done();
         });
     });
 
@@ -224,7 +227,16 @@ describe("API", function () {
           expect(res.body).to.have.property("status", "ok");
           expect(res.body).to.have.property("id", message_id);
 
-          done();
+          agent
+            .get("/message")
+            .end(function (err, res) {
+              if (err) {
+                return done(err);
+              }
+
+              expect(res.body.posts).to.have.length(post_size - 1);
+              done();
+            });
         });
     });
     it("DELTE /mesasge/:id (message already deleted)", function (done) {
@@ -247,7 +259,7 @@ describe("API", function () {
       agent
         .delete("/message/" + message_id2)
         .expect("Content-Type", /application\/json/)
-        .expect(400)
+        .expect(403)
         .end(function (err, res) {
           if (err) {
             return done(err);
