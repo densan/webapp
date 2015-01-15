@@ -9,7 +9,7 @@ var router = express.Router();
 var models = require("../models");
 
 // 認証確認
-router.use("/", function (req, res, next) {
+router.use(function (req, res, next) {
   if (! req.user) {
     return res.redirect(302, "/auth");
   }

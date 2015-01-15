@@ -75,6 +75,13 @@ describe("API", function () {
         .expect(302, done);
     });
 
+    it("GET /user (Check Auth)", function (done) {
+      request(app)
+        .get("/user")
+        .expect("Location", /\/auth$/)
+        .expect(302, done);
+    });
+
     it("POST /user (Change password)", function (done) {
       agent
         .post("/user")
@@ -111,6 +118,13 @@ describe("API", function () {
       agent2
         .post("/auth/password")
         .send({email: "hoge@example.com", pass: "piyopiyo"})
+        .expect(302, done);
+    });
+
+    it("GET /message (Check Auth)", function (done) {
+      request(app)
+        .get("/message")
+        .expect("Location", /\/auth$/)
         .expect(302, done);
     });
 

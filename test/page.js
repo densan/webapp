@@ -21,4 +21,11 @@ describe("Pages", function (done) {
       .expect("Location", /^https:\/\/www\.google\.com\/accounts\/o8\/ud/)
       .expect(302, done);
   });
+
+  it("Get home page (/home)", function (done) {
+    request(app)
+      .get("/home")
+      .expect("Location", /\/auth$/)
+      .expect(302, done);
+  });
 });
